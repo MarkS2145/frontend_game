@@ -1,0 +1,25 @@
+
+body {
+    background-color: burlywood;
+}
+
+.container {
+    border: 2px solid blue;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin: 0 20%;
+}
+
+.cell {
+    width: 100%;
+    height: 200px;
+    border: 2px solid black;
+}
+
+.blue {
+    background-color: blue;
+}
+
+.red {
+    background-color: red;
+}
