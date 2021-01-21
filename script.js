@@ -29,6 +29,7 @@ console.log( `Heading Up ${HEADING_UP} down ${HEADING_DOWN}`);
 let gEvent; // used to save off events for code development
 let allCells;  // Used to store All cell NodeLists from our grid
 let head; // keep track of head position
+let previousHeading;  //used to keep track of the previous head position sow e can test for eating ourself
 let statusMsg; // status msg Used for outputting the results of the game
 
 let playAgainButton;// For now I will keep the button, but expect to lose it.  ENTER to start
@@ -83,6 +84,7 @@ function setUp () {
     
     
     head = null;
+    previousHeading = null;
     
 }
 
@@ -120,7 +122,16 @@ function keyDown(event) {
                     break;
                 }
 
+                returnValue = eatSelfCheck(HEADING_LEFT);
+
+                if ( returnValue ) {
+                    // we are out of bounds, call summary()
+                    summary("Death by Canibalization Left");
+                    break;
+                }
+
                 allCells[head].classList.remove('snake');
+                previousHeading = HEADING_LEFT;
                 head = head + HEADING_LEFT;
                 allCells[head].classList.add('snake');
                 break;
@@ -135,7 +146,16 @@ function keyDown(event) {
                     break;
                 }
 
+                returnValue = eatSelfCheck(HEADING_UP);
+
+                if ( returnValue ) {
+                    // we are out of bounds, call summary()
+                    summary("Death by Canibalization Up");
+                    break;
+                }
+
                 allCells[head].classList.remove('snake');
+                previousHeading = HEADING_UP;
                 head = head + HEADING_UP;
                 allCells[head].classList.add('snake');
                 break;
@@ -150,7 +170,16 @@ function keyDown(event) {
                     break;
                 }
 
+                returnValue = eatSelfCheck(HEADING_RIGHT);
+
+                if ( returnValue ) {
+                    // we are out of bounds, call summary()
+                    summary("Death by Canibalization Right");
+                    break;
+                }
+
                 allCells[head].classList.remove('snake');
+                previousHeading = HEADING_RIGHT;
                 head = head + HEADING_RIGHT;
                 allCells[head].classList.add('snake');
                 break;
@@ -165,8 +194,17 @@ function keyDown(event) {
                     summary("Death by Out of Bounds Down");
                     break;
                 }
+
+                returnValue = eatSelfCheck(HEADING_DOWN);
+
+                if ( returnValue ) {
+                    // we are out of bounds, call summary()
+                    summary("Death by Canibalization Down");
+                    break;
+                }
                 
                 allCells[head].classList.remove('snake');
+                previousHeading = HEADING_DOWN;
                 head = head + HEADING_DOWN;
                 allCells[head].classList.add('snake');
                 break;
@@ -226,6 +264,25 @@ function outOfBoundsCheck(currentHeadLocation, direction) {
 
     // All OK, go about our business
     return false
+
+}
+
+function eatSelfCheck(newHeading) {
+    //we have these cases to check
+
+    //direction is null
+    if ( newHeading == null ) throw new UserException( "eatSelfCheck received null newHeading");
+
+
+    // If we reverse direction on ourselves we die, e.g. left <=> right, or up <=> down
+    // previousHeading is assigned on setup and on change of direction
+    if ( ( newHeading * -1) == previousHeading ) { return true }
+
+    //If our head will touch our body
+
+
+    // else, all good
+    return false;
 
 }
 
