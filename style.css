@@ -24,12 +24,16 @@ button {
     justify-items: center;
     justify-self: center;
     justify-content: center; */
-    margin: 1em;
+    
     background-color: greenyellow;
     /* margin-left: 7vw; */
-    margin-left: 40%;
-    /* margin-right: 3fr; */ */
+    margin: 1em;
+    margin-left: 38%;
+    min-height: 30px;
+    /* margin-right: 3fr; */
     font-size: 1.25em;
+    font-weight: bolder;
+    
 }
 
 h3 {

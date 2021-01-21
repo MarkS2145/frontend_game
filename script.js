@@ -58,11 +58,13 @@ function setUp () {
 
         // Add click event for playing
         playAgainButton.addEventListener('click', playAgain);
+
+        // set up keyboard input from document as a whole
+        const input = document.querySelector('input');
+        const log = document.getElementById('values');
     }
     
-    // set up keyboard input from document as a whole
-    const input = document.querySelector('input');
-    const log = document.getElementById('values');
+    head = null;
     
 }
 
@@ -262,8 +264,9 @@ function summary(msg) {
 function playAgain() {
     //call setup to restore default grid
     setUp();
-    message.innerText = "Red, click grid to Play"
+    statusMsg.innerText = "Hit any key to start"
 }
+
 
 // Let's run the game
 setUp();
