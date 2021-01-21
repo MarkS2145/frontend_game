@@ -47,7 +47,8 @@ function setUp () {
         debug ? console.log("setup allCells and events") : null ;
 
         // Set up event listener for Keyboard input
-        document.addEventListener('keydown', keyDown);
+        const input = document.querySelector('input');
+        
 
         //Get all cells from DOM
         allCells = document.querySelectorAll('.cell');
@@ -60,9 +61,13 @@ function setUp () {
         playAgainButton.addEventListener('click', playAgain);
 
         // set up keyboard input from document as a whole
-        const input = document.querySelector('input');
         const log = document.getElementById('values');
     }
+
+    // Set up event listener for Keyboard input
+    // We will ensure it is enabled on new game play
+    document.addEventListener('keydown', keyDown);
+    
     
     head = null;
     
@@ -99,6 +104,9 @@ function keyDown(event) {
                 break;
             case 39 : 
                 console.log("Right Arrow"); 
+                if ( head == 4 || head == 9 || head == 14 || head == 19) {
+                    throw "Youre Dead"
+                }
                 allCells[head].classList.remove('snake');
                 head = head + 1;
                 allCells[head].classList.add('snake');
@@ -256,6 +264,7 @@ function summary(msg) {
     playAgainButton.style.display = "";
 
     //Reset values ready for the next game
+    document.removeEventListener('keydown', keyDown);
 
     
 }
