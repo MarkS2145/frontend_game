@@ -63,11 +63,14 @@ h3 {
 .cell {
     width: 100%;
     height: 100%;
-    border: 2px solid goldenrod;
+    border: .2vw solid goldenrod;
     background-color: honeydew;
-}
+} 
 
 .snake {
     background-color: green; /* Snakes are green today! */
 } 
 
+.food {
+    background-color:indianred /* food is  today! */
+} 
