@@ -1,31 +1,9 @@
-// debug flag - set true to enable console logs for debugging
-let debug = true;  
-debug ? console.log('hello world') : null;
+let debug = false;  // set rtue to enable console logs for debugging
 
-// Game CONSTANTS
-
-/* GRID_SIZE 
-    Currently set for a 5 * 5 ...specifies # of columns/rows.
-   1) We work ONLY w/ squares.  NOT currently used in setup of grid.
-   2) Used for error bounds checking of head position within grid
-*/
-const GRID_SIZE = 5; 
-
-
-// Game Global Variables
-let gEvent; // used to save off events for code development
-let allCells;  // Used to store All cell NodeLists from our grid
-let head; // keep track of head position
-let statusMsg; // status msg Used for outputting the results of the game
-
-let playAgainButton;// For now I will keep the button, but expect to lose it.  ENTER to start
-
-let moves = [];
-
-debug ? console.log(allCells) : null;
-
-
-
+let playerColor = 'red';  // Red always starts the game
+let grid;  //The playing grid
+let playAgainButton;  
+let message; // Used for outputting the results of the game
 
 // Used to keep track of score and then test for a winner
 let gameWinner ;
@@ -33,93 +11,40 @@ let row= [ 0, 0, 0 ]; // ROW ORDER 1, 2, 3, Top to bottom.
 let col = [ 0, 0, 0]; // ROW ORDER 1, 2, 3, Top to bottom.
 let diag = [ 0, 0 ]; // Diaginal ORDER 1, Top left to bottom right, 2 top right to bottom left
 
-// Use variable to count number of valid moves so we can test
+// Use varaible to count number of valid moves so we can test
 // if we have  draw and stop the game
 let gValidMove = 0;
-
-//
 
 //setup() - 1) set bgColor so we can test it.  2) Add click event to grid
 function setUp () {
     //Get the grid from the
-    if ( allCells == null ) {
-        
-        debug ? console.log("setup allCells and events") : null ;
+    if ( grid == null ) {
+        debug ? console.log("setup grid and events") : null ;
 
-        // Set up event listener for Keyboard input
-        document.addEventListener('keydown', keyDown);
-
-        //Get all cells from DOM
-        allCells = document.querySelectorAll('.cell');
-
+        grid = document.querySelector('.cells');
         playAgainButton = document.querySelector('button');
-        
-        statusMsg = document.querySelector('h3');
+        message = document.querySelector('h3');
 
         // Add click event for playing
+        
         playAgainButton.addEventListener('click', playAgain);
     }
-    
-    // set up keyboard input from document as a whole
-    const input = document.querySelector('input');
-    const log = document.getElementById('values');
-    
-}
 
-// KeyDown identifies the arrow keys for us which will direct snake
-function keyDown(event) {
+    grid.addEventListener('click', boxClicked);
     
-    debug ? console.log(event) : null ;
-    debug ? console.log("KeyCode:" + event.keyCode) : null ;
-    debug ? console.log("Head value: " + head) : null;
-    
-    // Game starts
-    if (head == null) {
-        allCells[12].classList.add('snake');
-        head = parseInt(allCells[12].id);
-    }
 
-
-    // Update snake head location
-    try {
-        switch ( event.keyCode) {
-            case 37 : 
-                console.log("Left Arrow"); 
-                allCells[head].classList.remove('snake');
-                head = head - 1;
-                allCells[head].classList.add('snake');
-                break;
-            case 38 : 
-                console.log("Up Arrow");
-                allCells[head].classList.remove('snake');
-                head = head - 5;
-                allCells[head].classList.add('snake');
-                break;
-            case 39 : 
-                console.log("Right Arrow"); 
-                allCells[head].classList.remove('snake');
-                head = head + 1;
-                allCells[head].classList.add('snake');
-                break;
-    
-            case 40 : 
-                console.log("Down Arrow"); 
-                allCells[head].classList.remove('snake');
-                head = head + 5;
-                allCells[head].classList.add('snake');
-                break;
-        }
-
-    } // end of try
-    catch {
-        console.log("You're dead!")
-        summary("You're dead!")
+    // Iterate over the 9 array elements (excluding the script & button elements) 
+    // and set the background color.  We will use this to test against in the future
+    for(let i = 0; i < grid.children.length ; i ++ ) {
+            grid.children[i].style.backgroundColor = 'lightgray';
+            //We will use this to tell if we have a winner
+            grid.children[i].innerText = 0 ; //cell value set to zero, changes on click
+            grid.children[i].style.color = 'lightgray';
     }
     
-
+    // We have setup the game, hide button
+    playAgainButton.style.display = 'none';
 }
-
-
 
 // Change color of grid cell when allowed, else msg.  Check for winner()
 function boxClicked(e) {
@@ -246,15 +171,22 @@ function summary(msg) {
 
     debug ? console.log("Summary called by" + msg) : null ;
 
-   
+    //Disable grid event click
+    grid.removeEventListener('click', boxClicked);
+
     // Update status
-    statusMsg.innerText = msg;
+    message.innerText = msg;
 
     //Display play again button
     playAgainButton.style.display = "";
 
     //Reset values ready for the next game
-
+    gValidMove = 0;
+    playerColor = 'red';
+    gameWinner = 0;
+    row= [ 0, 0, 0 ]; 
+    col = [ 0, 0, 0];
+    diag = [ 0, 0 ];
     
 }
 
