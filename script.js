@@ -32,6 +32,8 @@ const TIMER_UPDATE = 1 ; //Seconds, will be converted to milliseconds in the tim
 const FOOD_COUNT = 5; //S Seconds to put food out, after last food is eaten
 
 
+
+
 console.log( `Heading Up ${HEADING_UP} down ${HEADING_DOWN}`);
 
 
@@ -46,7 +48,10 @@ let foodCount;
 
 let playAgainButton;// For now I will keep the button, but expect to lose it.  ENTER to start
 
-// let moves = [];
+//Handler f() Variables
+let handlerActive;  // USed to stop the impact of the timer on game updates withotu actually stopping the timer.
+
+
 
 debug ? console.log(allCells) : null;
 
@@ -88,6 +93,8 @@ function setUp () {
 
         // set up keyboard input from document as a whole
         const log = document.getElementById('values');
+
+        
     }
 
     // Set up event listener for Keyboard input
@@ -103,15 +110,17 @@ function setUp () {
     eatenFoodCounter = 0;
 
     // start updating game play
-    updateHandler();
+    //Turn on game timer.
+    timer(true);
+    handlerActive = true; //
 
-    
 }
 
 // KeyDown identifies the arrow keys for us which will direct snake
 function keyDown(event) {
     // Save off existing head value
     let currentHead = head;
+    let foodEaten = 0;
 
     debug ? console.log(event) : null ;
     debug ? console.log("KeyCode: " + event.keyCode) : null ;
@@ -154,7 +163,7 @@ function keyDown(event) {
                 previousHeading = HEADING_LEFT;
                 head = head + HEADING_LEFT;
                 allCells[head].classList.add('snake');
-                checkForFood(allCells[head].classList);
+                foodEaten = checkForFood(allCells[head].classList);
                 break;
             case UP_ARROW : 
                 console.log("Up Arrow");
@@ -179,7 +188,7 @@ function keyDown(event) {
                 previousHeading = HEADING_UP;
                 head = head + HEADING_UP;
                 allCells[head].classList.add('snake');
-                checkForFood(allCells[head].classList);
+                foodEaten = checkForFood(allCells[head].classList);
                 break;
             case RIGHT_ARROW : 
                 console.log("Right Arrow"); 
@@ -204,7 +213,7 @@ function keyDown(event) {
                 previousHeading = HEADING_RIGHT;
                 head = head + HEADING_RIGHT;
                 allCells[head].classList.add('snake');
-                checkForFood(allCells[head].classList);
+                foodEaten = checkForFood(allCells[head].classList);
                 break;
     
             case DOWN_ARROW : 
@@ -230,19 +239,20 @@ function keyDown(event) {
                 previousHeading = HEADING_DOWN;
                 head = head + HEADING_DOWN;
                 allCells[head].classList.add('snake');
-                checkForFood(allCells[head].classList);
+                foodEaten = checkForFood(allCells[head].classList);
                 break;
             default:
                 console.log("Default hit in try/catch block of keydown")
         }
-        debug ? console.log("New Head value: " + head) : null;     
+        debug ? console.log("New Head value: " + head) : null;  
+        console.log("snakes eaten " + foodEaten + " pieces of food")   
     }// end of try
     catch (e) {
     //     console.log("Caught you.. you're dead!")
         summary("Catch:  You're dead! :Error:" + e.message )
         console.error();
     }
-    
+    return;
 
 }
 
@@ -317,8 +327,11 @@ function eatSelfCheck(newHeading) {
 //summary() provides a summary of gameplay outcome and resets variables
 function summary(msg) {
 
-    //halt timer
-    timer(false);
+    //Reset values ready for the next game
+    document.removeEventListener('keydown', keyDown);
+
+    // Disable handler from updating anything
+    handlerActive = false;
 
     debug ? console.log("Summary called by" + msg) : null ;
 
@@ -326,11 +339,11 @@ function summary(msg) {
     // Update status
     statusMsg.innerText = msg;
 
-    //Display play again button
+    //Show play button
     playAgainButton.style.display = "";
 
-    //Reset values ready for the next game
-    document.removeEventListener('keydown', keyDown);
+    //halt timer
+    timer(false);
 
 }
 
@@ -376,12 +389,12 @@ function addFood() {
 let eatenFoodCounter = 0;
 
 function checkForFood(headLocationClassList){
-    console.group("checkForFood() called")
+    //console.group("checkForFood() called")
     if ( headLocationClassList[1] == 'food') {
-        eatenFoodCounter++;
         headLocationClassList.remove('food')
-        console.log("snakes eaten " + eatenFoodCounter + " pieces of food")
+        eatenFoodCounter++;
     }
+    return eatenFoodCounter;
 }
     
 
@@ -391,26 +404,26 @@ function timer(state){
     // State asses in whether we are in progress or stopped
     // TIMER_ON or TIMER_OFF
     // TTIMER_UPDATE is defined in Seconds and converted to needed mSecs within f()
+    console.log('timer called with state: ' + state + " and duration" + (TIMER_UPDATE * 1000) + "mSecs." );
 
-    if (state) { timerVar = setTimeout(updateHandler, TIMER_UPDATE * 1000); return }
+    state ? timerVar = setInterval(updateHandler, (TIMER_UPDATE * 1000) ) : clearInterval(timerVar) ;
 
-    // Turn off timer whilst inbetween games
-    clearTimeout(timerVar); return;    
+    return;
 }
 
 let updateCounter = 0;
 // function to control stuff
 function updateHandler() {
     updateCounter++;
-    console.log(" updateHandler called from timing event" + updateCounter );
+    console.log("UpdateHandler is: " + handlerActive + " called from timing event: " + updateCounter );
 
-    addFood();
-
-    timer(true);
+    handlerActive ? addFood() : console.log("halted") ;
+    
+    return;
 }
 
 
 
 
 // Let's run the game
-setUp();
+setUp(); 
