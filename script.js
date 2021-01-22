@@ -101,6 +101,10 @@ function setUp () {
     previousHeading = null;
     foodCount = 0;
     eatenFoodCounter = 0;
+
+    // start updating game play
+    updateHandler();
+
     
 }
 
@@ -175,6 +179,7 @@ function keyDown(event) {
                 previousHeading = HEADING_UP;
                 head = head + HEADING_UP;
                 allCells[head].classList.add('snake');
+                checkForFood(allCells[head].classList);
                 break;
             case RIGHT_ARROW : 
                 console.log("Right Arrow"); 
@@ -199,6 +204,7 @@ function keyDown(event) {
                 previousHeading = HEADING_RIGHT;
                 head = head + HEADING_RIGHT;
                 allCells[head].classList.add('snake');
+                checkForFood(allCells[head].classList);
                 break;
     
             case DOWN_ARROW : 
@@ -224,6 +230,7 @@ function keyDown(event) {
                 previousHeading = HEADING_DOWN;
                 head = head + HEADING_DOWN;
                 allCells[head].classList.add('snake');
+                checkForFood(allCells[head].classList);
                 break;
             default:
                 console.log("Default hit in try/catch block of keydown")
@@ -407,4 +414,3 @@ function updateHandler() {
 
 // Let's run the game
 setUp();
-timer(true);
