@@ -100,6 +100,7 @@ function setUp () {
     head = null;
     previousHeading = null;
     foodCount = 0;
+    eatenFoodCounter = 0;
     
 }
 
@@ -149,6 +150,7 @@ function keyDown(event) {
                 previousHeading = HEADING_LEFT;
                 head = head + HEADING_LEFT;
                 allCells[head].classList.add('snake');
+                checkForFood(allCells[head].classList);
                 break;
             case UP_ARROW : 
                 console.log("Up Arrow");
@@ -308,6 +310,9 @@ function eatSelfCheck(newHeading) {
 //summary() provides a summary of gameplay outcome and resets variables
 function summary(msg) {
 
+    //halt timer
+    timer(false);
+
     debug ? console.log("Summary called by" + msg) : null ;
 
    
@@ -360,25 +365,30 @@ function addFood() {
         
     }
 }
+
+let eatenFoodCounter = 0;
+
+function checkForFood(headLocationClassList){
+    console.group("checkForFood() called")
+    if ( headLocationClassList[1] == 'food') {
+        eatenFoodCounter++;
+        headLocationClassList.remove('food')
+        console.log("snakes eaten " + eatenFoodCounter + " pieces of food")
+    }
+}
     
 
-
+let timerVar;
 // add Timer f() to make updates to code
 function timer(state){
     // State asses in whether we are in progress or stopped
     // TIMER_ON or TIMER_OFF
     // TTIMER_UPDATE is defined in Seconds and converted to needed mSecs within f()
 
-    if (state) {
+    if (state) { timerVar = setTimeout(updateHandler, TIMER_UPDATE * 1000); return }
 
-        //
-        setTimeout(updateHandler, TIMER_UPDATE * 1000);
-
-    }
-    else {
-        // Turn off timer whilst inbetween games
-        
-    }
+    // Turn off timer whilst inbetween games
+    clearTimeout(timerVar); return;    
 }
 
 let updateCounter = 0;
