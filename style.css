@@ -55,8 +55,8 @@ h3 {
     /* border: 2px solid blue; */
     display: grid;
     justify-content: center;
-    grid-template-columns: 5vw 5vw 5vw 5vw 5vw;
-    grid-template-rows: 5vw 5vw 5vw 5vw 5vw;
+    grid-template-columns: 7vw 7vw 7vw 7vw 7vw;
+    grid-template-rows: 7vw 7vw 7vw 7vw 7vw;
 }
 
 

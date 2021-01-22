@@ -20,6 +20,17 @@ const GRID_SIZE = 5;
 */
 const HEADING_RIGHT = 1, HEADING_LEFT = -1;
 const HEADING_UP = -GRID_SIZE, HEADING_DOWN = GRID_SIZE;
+const LEFT_ARROW = 37;
+const UP_ARROW = 38;
+const RIGHT_ARROW = 39;
+const DOWN_ARROW = 40;
+
+// Timer f() constants
+const TIMER_ON = true;
+const TIMER_OFF = false;
+const TIMER_UPDATE = 1 ; //Seconds, will be converted to milliseconds in the timerF()
+const FOOD_COUNT = 5; //S Seconds to put food out, after last food is eaten
+
 
 console.log( `Heading Up ${HEADING_UP} down ${HEADING_DOWN}`);
 
@@ -31,6 +42,7 @@ let allCells;  // Used to store All cell NodeLists from our grid
 let head; // keep track of head position
 let previousHeading;  //used to keep track of the previous head position sow e can test for eating ourself
 let statusMsg; // status msg Used for outputting the results of the game
+let foodCount;
 
 let playAgainButton;// For now I will keep the button, but expect to lose it.  ENTER to start
 
@@ -81,10 +93,13 @@ function setUp () {
     // Set up event listener for Keyboard input
     // We will ensure it is enabled on new game play
     document.addEventListener('keydown', keyDown);
+
     
     
+    //Reset variables back to defaults
     head = null;
     previousHeading = null;
+    foodCount = 0;
     
 }
 
@@ -111,7 +126,7 @@ function keyDown(event) {
     // Update snake head location
     try {
         switch ( event.keyCode) {
-            case 37 : 
+            case LEFT_ARROW : 
                 console.log("Left Arrow"); 
 
                 returnValue = outOfBoundsCheck(head, HEADING_LEFT);
@@ -135,7 +150,7 @@ function keyDown(event) {
                 head = head + HEADING_LEFT;
                 allCells[head].classList.add('snake');
                 break;
-            case 38 : 
+            case UP_ARROW : 
                 console.log("Up Arrow");
 
                 returnValue = outOfBoundsCheck(head, HEADING_UP);
@@ -159,7 +174,7 @@ function keyDown(event) {
                 head = head + HEADING_UP;
                 allCells[head].classList.add('snake');
                 break;
-            case 39 : 
+            case RIGHT_ARROW : 
                 console.log("Right Arrow"); 
 
                 returnValue = outOfBoundsCheck(head, HEADING_RIGHT);
@@ -184,7 +199,7 @@ function keyDown(event) {
                 allCells[head].classList.add('snake');
                 break;
     
-            case 40 : 
+            case DOWN_ARROW : 
                 console.log("Down Arrow"); 
 
                 returnValue = outOfBoundsCheck(head, HEADING_DOWN);
@@ -316,8 +331,70 @@ function playAgain() {
 
 function UserException(message) {
     this.message = message;
-    this.name = 'UserException' ;
+    this.name = 'UserException'  ;
 }
+
+
+// We don't put food out until previous food is eaten
+let foodOut = false;
+let foodIndex = 0;
+let foodLocation = [ 1, 19, 13, 17, 6, 21, 11, 5, 23, 0 ]
+
+// Add food for the snake
+function addFood() {
+
+    // for now I will simply hard code an array of food in given locations
+    // and deal with error checking later
+    console.log("Food called, index: " + foodIndex)
+
+    if (foodIndex < foodLocation.length ) {
+        if (updateCounter == (FOOD_COUNT/TIMER_UPDATE) ){
+            // Put food out
+            allCells[foodLocation[foodIndex]].classList.add('food');
+            foodOut = true;       
+            foodIndex++;
+            updateCounter = 0;
+        }
+    } else {
+        foodIndex = 0;
+        
+    }
+}
+    
+
+
+// add Timer f() to make updates to code
+function timer(state){
+    // State asses in whether we are in progress or stopped
+    // TIMER_ON or TIMER_OFF
+    // TTIMER_UPDATE is defined in Seconds and converted to needed mSecs within f()
+
+    if (state) {
+
+        //
+        setTimeout(updateHandler, TIMER_UPDATE * 1000);
+
+    }
+    else {
+        // Turn off timer whilst inbetween games
+        
+    }
+}
+
+let updateCounter = 0;
+// function to control stuff
+function updateHandler() {
+    updateCounter++;
+    console.log(" updateHandler called from timing event" + updateCounter );
+
+    addFood();
+
+    timer(true);
+}
+
+
+
 
 // Let's run the game
 setUp();
+timer(true);
