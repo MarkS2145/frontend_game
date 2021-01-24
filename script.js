@@ -58,9 +58,10 @@ debug ? console.log(allCells) : null;
 
 //Class SnakeSegment will hold details of where our snake head and body will be
 function SnakeSegment( currentLocation, nextLocation, head = false) {
-    this. head = head;
-    this. currentLocation = currentocation;
-    this.extLocation = nextLocation;
+    this.class = 'snake';
+    this.head = head;
+    this.currentLocation = currentLocation;
+    this.nextLocation = nextLocation;
 }
 
 // Define a Snake Array - will hold SnakeSegments
@@ -139,6 +140,13 @@ function keyDown(event) {
         allCells[12].classList.add('snake');
         head = parseInt(allCells[12].id);
         console.log("Null head value assignment, after: " + head);
+
+
+        SnakeArray.unshift( new SnakeSegment(allCells[12], null, true ));
+
+        console.log(SnakeArray)
+
+
     }
 
 
@@ -170,7 +178,7 @@ function keyDown(event) {
                 previousHeading = HEADING_LEFT;
                 head = head + HEADING_LEFT;
                 allCells[head].classList.add('snake');
-                foodEaten = checkForFood(allCells[head].classList);
+                foodEaten = checkForFood(allCells[head]);
                 break;
             case UP_ARROW : 
                 console.log("Up Arrow");
@@ -195,7 +203,7 @@ function keyDown(event) {
                 previousHeading = HEADING_UP;
                 head = head + HEADING_UP;
                 allCells[head].classList.add('snake');
-                foodEaten = checkForFood(allCells[head].classList);
+                foodEaten = checkForFood(allCells[head]);
                 break;
             case RIGHT_ARROW : 
                 console.log("Right Arrow"); 
@@ -220,7 +228,7 @@ function keyDown(event) {
                 previousHeading = HEADING_RIGHT;
                 head = head + HEADING_RIGHT;
                 allCells[head].classList.add('snake');
-                foodEaten = checkForFood(allCells[head].classList);
+                foodEaten = checkForFood(allCells[head]);
                 break;
     
             case DOWN_ARROW : 
@@ -246,7 +254,7 @@ function keyDown(event) {
                 previousHeading = HEADING_DOWN;
                 head = head + HEADING_DOWN;
                 allCells[head].classList.add('snake');
-                foodEaten = checkForFood(allCells[head].classList);
+                foodEaten = checkForFood(allCells[head]);
                 break;
             default:
                 console.log("Default hit in try/catch block of keydown")
@@ -395,11 +403,15 @@ function addFood() {
 
 let eatenFoodCounter = 0;
 
-function checkForFood(headLocationClassList){
+function checkForFood(headLocation){
     //console.group("checkForFood() called")
-    if ( headLocationClassList[1] == 'food') {
-        headLocationClassList.remove('food')
+    if ( headLocation.classList[1] == 'food') {
+        headLocation.classList.remove('food')
         eatenFoodCounter++;
+        // increase snake length
+        SnakeArray.splice(1, 0, new SnakeSegment(headLocation, null));
+
+        console.log(`Added to Snake ${SnakeArray} `);
     }
     return eatenFoodCounter;
 }
@@ -428,31 +440,6 @@ function updateHandler() {
     
     return;
 }
-
-// This fucntion is used to build out the snake
-function addToSnake() {
-    // When the snake has eaten food we want to increase its length and track its expected head following movement
-
-    // Snake body object needs
-    // Existing location.  next direction fo travel
-
-    // Snake Object needs a head
-    // Needs body section once it eats food
-    // Keeps count of how long the body is
-    // Allows additional items to be added
-    // Can be used to ensure new food is not dropped on snake body
-
-    // Save off existing head location and direction of travel
-
-    // Move head on to next square
-
-    // Add new body to existing square
-
-
-
-}
-
-
 
 
 // Let's run the game
