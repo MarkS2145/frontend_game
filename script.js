@@ -56,16 +56,22 @@ let handlerActive;  // USed to stop the impact of the timer on game updates with
 
 debug ? console.log(allCells) : null;
 
-//Class SnakeSegment will hold details of where our snake head and body will be
-function SnakeSegment( currentLocation, nextLocation, head = false) {
-    this.class = 'snake';
-    this.head = head;
-    this.currentLocation = currentLocation;
-    this.nextLocation = nextLocation;
-}
+// //Class SnakeSegment will hold details of where our snake head and body will be
+// function SnakeSegment( currentLocation, nextLocation, head = false) {
+//     this.class = 'snake';
+//     this.head = head;
+//     this.currentLocation = currentLocation;
+//     this.nextLocation = nextLocation;
+// }
 
-// Define a Snake Array - will hold SnakeSegments
-let SnakeArray = [];
+
+// New simplified appraoch should be much less prone to errors
+// Add head to snake array.  Head always keeps zeroth array location.
+// When we move we add new location to zerith element
+// then remove the snake class from the last element and delete it
+// Simples! :-)
+// Define a Snake Array 
+let snakeArray = [];
 
 
 //setup() - 1) set bgColor so we can test it.  2) Add click event to grid
@@ -137,18 +143,21 @@ function keyDown(event) {
     // Game starts
     if (head == null) {
         
-        allCells[12].classList.add('snake');
+        // allCells[12].classList.add('snake');
         head = parseInt(allCells[12].id);
-        console.log("Null head value assignment, after: " + head);
+        // console.log("Null head value assignment, after: " + head);
 
+        snakeArray[0] = 12; // add 12 to the zeroth location
 
-        SnakeArray.unshift( new SnakeSegment(allCells[12], null, true ));
+        console.log(snakeArray);
+        allCells[(snakeArray[0])].classList.add('snake');
 
-        console.log(SnakeArray)
+        console.log(`Snake Head started at: ${snakeArray}`);
 
-
+        
     }
 
+    
 
     let returnValue = null;
 
@@ -403,15 +412,19 @@ function addFood() {
 
 let eatenFoodCounter = 0;
 
+let gHeadLocation = null;
+
 function checkForFood(headLocation){
     //console.group("checkForFood() called")
+
+    gHeadLocation = headLocation;  // so we can debug
+
     if ( headLocation.classList[1] == 'food') {
         headLocation.classList.remove('food')
         eatenFoodCounter++;
         // increase snake length
-        SnakeArray.splice(1, 0, new SnakeSegment(headLocation, null));
-
-        console.log(`Added to Snake ${SnakeArray} `);
+        snakeArray.splice(1, 0, parseInt(headLocation.id))
+        
     }
     return eatenFoodCounter;
 }
