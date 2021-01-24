@@ -40,6 +40,7 @@ console.log( `Heading Up ${HEADING_UP} down ${HEADING_DOWN}`);
 
 // Game Global Variables
 let gEvent; // used to save off events for code development
+let gameInProgress;
 let allCells;  // Used to store All cell NodeLists from our grid
 let head; // keep track of head position
 let previousHeading;  //used to keep track of the previous head position sow e can test for eating ourself
@@ -101,13 +102,23 @@ function setUp () {
     // We will ensure it is enabled on new game play
     document.addEventListener('keydown', keyDown);
 
+    //Clear the grid
+    allCells.forEach(element => {
+        element.classList.remove('snake');
+        element.classList.remove('food');
+        
+    });
+
     
     
     //Reset variables back to defaults
     head = null;
     previousHeading = null;
     foodCount = 0;
-    eatenFoodCounter = 0;
+    eatenFoodCounter = 0;  // resets score
+    foodIndex = 0; // reset counter till next food is put on grid
+    gameInProgress = true;
+
 
     // start updating game play
     //Turn on game timer.
@@ -121,7 +132,7 @@ function keyDown(event) {
     // Save off existing head value
     let currentHead = head;
     let foodEaten = 0;
-
+ 
     debug ? console.log(event) : null ;
     debug ? console.log("KeyCode: " + event.keyCode) : null ;
     debug ? console.log("Current Head value: " + currentHead + "\n") : null;
@@ -344,14 +355,14 @@ function summary(msg) {
 
     //halt timer
     timer(false);
+    gameInProgress = false; // Used sow e don't restart a game in rpogress
 
 }
 
-//playAgain() Sam is called by teh event click on the button to strat a new game
+//playAgain() Sam is called by the event click on the button to strat a new game
 function playAgain() {
-    //call setup to restore default grid
-    setUp();
-    statusMsg.innerText = "Hit any key to start"
+    //call setup to restore default grid ONLy if game is NOT in progress
+    !gameInProgress ? ( setUp(), statusMsg.innerText = "Hit any key to start" ) : null ;
 }
 
 function UserException(message) {
@@ -381,8 +392,8 @@ function addFood() {
             updateCounter = 0;
         }
     } else {
+        // reset index into food location array
         foodIndex = 0;
-        
     }
 }
 
@@ -406,7 +417,7 @@ function timer(state){
     // TTIMER_UPDATE is defined in Seconds and converted to needed mSecs within f()
     console.log('timer called with state: ' + state + " and duration" + (TIMER_UPDATE * 1000) + "mSecs." );
 
-    state ? timerVar = setInterval(updateHandler, (TIMER_UPDATE * 1000) ) : clearInterval(timerVar) ;
+    state ? timerVar = setInterval(updateHandler, (TIMER_UPDATE * 1000) ) : clearInterval(timerVar);
 
     return;
 }
