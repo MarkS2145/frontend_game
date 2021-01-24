@@ -115,7 +115,8 @@ function setUp () {
     
     
     //Reset variables back to defaults
-    head = null;
+    // head = null;
+    snakeArray[0] = null;
     previousHeading = null;
     foodCount = 0;
     eatenFoodCounter = 0;  // resets score
@@ -141,10 +142,11 @@ function keyDown(event) {
     debug ? console.log("Current Head value: " + currentHead + "\n") : null;
     
     // Game starts
-    if (head == null) {
+    // if (head == null) {
+    if (snakeArray[0] == null) {
         
         // allCells[12].classList.add('snake');
-        head = parseInt(allCells[12].id);
+        //head = 12;
         // console.log("Null head value assignment, after: " + head);
 
         snakeArray[0] = 12; // add 12 to the zeroth location
@@ -167,7 +169,8 @@ function keyDown(event) {
             case LEFT_ARROW : 
                 console.log("Left Arrow"); 
 
-                returnValue = outOfBoundsCheck(head, HEADING_LEFT);
+                // returnValue = outOfBoundsCheck(head, HEADING_LEFT);
+                returnValue = outOfBoundsCheck(snakeArray[0], HEADING_LEFT);
 
                 if ( returnValue ) {
                     // we are out of bounds, call summary()
@@ -183,16 +186,19 @@ function keyDown(event) {
                     break;
                 }
 
-                allCells[head].classList.remove('snake');
+                // allCells[head].classList.remove('snake');
+                allCells[ (snakeArray[0]) ].classList.remove('snake');
                 previousHeading = HEADING_LEFT;
-                head = head + HEADING_LEFT;
-                allCells[head].classList.add('snake');
-                foodEaten = checkForFood(allCells[head]);
+                // head = head + HEADING_LEFT;
+                snakeArray[0] = snakeArray[0] + HEADING_LEFT;
+                allCells[snakeArray[0]].classList.add('snake');
+                foodEaten = checkForFood(allCells[ (snakeArray[0]) ]);
                 break;
             case UP_ARROW : 
                 console.log("Up Arrow");
 
-                returnValue = outOfBoundsCheck(head, HEADING_UP);
+                // returnValue = outOfBoundsCheck(head, HEADING_UP);
+                returnValue = outOfBoundsCheck( (snakeArray[0]) , HEADING_UP);
 
                 if ( returnValue ) {
                     // we are out of bounds, call summary()
@@ -207,17 +213,22 @@ function keyDown(event) {
                     summary("Death by Canibalization Up");
                     break;
                 }
-
-                allCells[head].classList.remove('snake');
+                
+                // allCells[head].classList.remove('snake');
+                allCells[ (snakeArray[0]) ].classList.remove('snake');
                 previousHeading = HEADING_UP;
-                head = head + HEADING_UP;
-                allCells[head].classList.add('snake');
-                foodEaten = checkForFood(allCells[head]);
+                // head = head + HEADING_UP;
+                snakeArray[0] = snakeArray[0] + HEADING_UP;
+                // allCells[head].classList.add('snake');
+                allCells[ (snakeArray[0]) ].classList.add('snake');
+                // foodEaten = checkForFood(allCells[head]);
+                foodEaten = checkForFood(allCells[ (snakeArray[0]) ]);
                 break;
             case RIGHT_ARROW : 
                 console.log("Right Arrow"); 
 
-                returnValue = outOfBoundsCheck(head, HEADING_RIGHT);
+                // returnValue = outOfBoundsCheck(head, HEADING_RIGHT);
+                returnValue = outOfBoundsCheck((snakeArray[0]), HEADING_RIGHT);
 
                 if ( returnValue ) {
                     // we are out of bounds, call summary()
@@ -233,17 +244,21 @@ function keyDown(event) {
                     break;
                 }
 
-                allCells[head].classList.remove('snake');
+                // allCells[head].classList.remove('snake');
+                allCells[(snakeArray[0])].classList.remove('snake');
                 previousHeading = HEADING_RIGHT;
-                head = head + HEADING_RIGHT;
-                allCells[head].classList.add('snake');
-                foodEaten = checkForFood(allCells[head]);
+                // head = head + HEADING_RIGHT;
+                (snakeArray[0]) = (snakeArray[0]) + HEADING_RIGHT;
+                allCells[(snakeArray[0])].classList.add('snake');
+                // foodEaten = checkForFood(allCells[head]);
+                foodEaten = checkForFood(allCells[ (snakeArray[0]) ] );
                 break;
     
             case DOWN_ARROW : 
                 console.log("Down Arrow"); 
 
-                returnValue = outOfBoundsCheck(head, HEADING_DOWN);
+                // returnValue = outOfBoundsCheck(head, HEADING_DOWN);
+                returnValue = outOfBoundsCheck(  (snakeArray[0])  , HEADING_DOWN);
 
                 if ( returnValue ) {
                     // we are out of bounds, call summary()
@@ -259,16 +274,20 @@ function keyDown(event) {
                     break;
                 }
                 
-                allCells[head].classList.remove('snake');
+                // allCells[head].classList.remove('snake');
+                allCells[ (snakeArray[0]) ].classList.remove('snake');
                 previousHeading = HEADING_DOWN;
-                head = head + HEADING_DOWN;
-                allCells[head].classList.add('snake');
-                foodEaten = checkForFood(allCells[head]);
+                // head = head + HEADING_DOWN;
+                (snakeArray[0])  =  (snakeArray[0])  + HEADING_DOWN;
+                // allCells[head].classList.add('snake');
+                allCells[ (snakeArray[0]) ].classList.add('snake');
+                // foodEaten = checkForFood(allCells[head]);
+                foodEaten = checkForFood(allCells[ (snakeArray[0]) ]);
                 break;
             default:
                 console.log("Default hit in try/catch block of keydown")
         }
-        debug ? console.log("New Head value: " + head) : null;  
+        debug ? console.log("New Head value: " +  (snakeArray[0]) ) : null;  
         console.log("snakes eaten " + foodEaten + " pieces of food")   
     }// end of try
     catch (e) {
