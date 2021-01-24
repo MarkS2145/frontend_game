@@ -56,20 +56,16 @@ let handlerActive;  // USed to stop the impact of the timer on game updates with
 
 debug ? console.log(allCells) : null;
 
+//Class SnakeSegment will hold details of where our snake head and body will be
+function SnakeSegment( currentLocation, nextLocation, head = false) {
+    this. head = head;
+    this. currentLocation = currentocation;
+    this.extLocation = nextLocation;
+}
 
+// Define a Snake Array - will hold SnakeSegments
+let SnakeArray = [];
 
-
-// Used to keep track of score and then test for a winner
-// let gameWinner ;
-// let row= [ 0, 0, 0 ]; // ROW ORDER 1, 2, 3, Top to bottom.
-// let col = [ 0, 0, 0]; // ROW ORDER 1, 2, 3, Top to bottom.
-// let diag = [ 0, 0 ]; // Diaginal ORDER 1, Top left to bottom right, 2 top right to bottom left
-
-// Use variable to count number of valid moves so we can test
-// if we have  draw and stop the game
-// let gValidMove = 0;
-
-//
 
 //setup() - 1) set bgColor so we can test it.  2) Add click event to grid
 function setUp () {
@@ -431,6 +427,29 @@ function updateHandler() {
     handlerActive ? addFood() : console.log("halted") ;
     
     return;
+}
+
+// This fucntion is used to build out the snake
+function addToSnake() {
+    // When the snake has eaten food we want to increase its length and track its expected head following movement
+
+    // Snake body object needs
+    // Existing location.  next direction fo travel
+
+    // Snake Object needs a head
+    // Needs body section once it eats food
+    // Keeps count of how long the body is
+    // Allows additional items to be added
+    // Can be used to ensure new food is not dropped on snake body
+
+    // Save off existing head location and direction of travel
+
+    // Move head on to next square
+
+    // Add new body to existing square
+
+
+
 }
 
 
