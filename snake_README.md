@@ -63,10 +63,9 @@ __[x]__ Additionally, your project should stick with KISS (Keep It Stupid Simple
 ## Opportunities for improvement
 1. __[]__ __Keep Score__ -  Save off, with user name, the top three high scores to the server.
 1. __[]__ __Velocity__ - Add an initial velocity vector to the snake.
-
+1. __[]__ __Randomize food location__ - Current implementation uses a fixed array.  Update to randomly select not snake locations.
 1. __[]__ __Refactor code__ - Improve readability, reduce variables and improve f() calls.
 1. __[]__ __Grid Size__ - Allow the user to specify the grid size.  Currently, a global CONST is used to define it but some magic numbers exist in the code, although I tried to minimize this as I had this feature in mind when starting out.
-
 1. __[]__ __Increase Velocity__ - Increase the snake velocity after "n" number of food units eaten.
 1. __[]__ __Specify USer Level__ - Allow the user to specify easy, medium or hard for initial velocity vector and resultant gameplay.
 1. __[]__ __CSS__ - Improve css for better layout of status label and change font fro something more modern, or 80s style, in appearance.
@@ -74,6 +73,8 @@ __[x]__ Additionally, your project should stick with KISS (Keep It Stupid Simple
 
 ## Contributions Guidelines
 1. Not accepting contributions at this time as this project is used for my learning.
+
+* [Front End Git Hub for Snakes Alive](https://github.com/MarkStuebs/frontend_game)
 
 ## Plagiarism
 
