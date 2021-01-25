@@ -61,16 +61,16 @@ __[x]__ Additionally, your project should stick with KISS (Keep It Stupid Simple
 1. __[]__ Food can drop on the snakes body.  Issue persists due to feature list priority as this doesn't impact general game play.
 
 ## Opportunities for improvement
-1. __[]__ Keep score and save off, with user name the top three high scores to the server.
-1. __[]__ Add an initial velocity vector to the snake.
+1. __[]__ __Keep Score__ -  Save off, with user name, the top three high scores to the server.
+1. __[]__ __Velocity__ - Add an initial velocity vector to the snake.
 
-1. __[]__ Refactor code to improve readability, reduce variables and improve f() calls.
-1. __[]__ Allow the user to specify the grid size.  Currently, a global CONST is used to define it but some magic numbers exist in the code, although I tried to minimize this as I had this feature in mind when starting out.
+1. __[]__ __Refactor code__ - Improve readability, reduce variables and improve f() calls.
+1. __[]__ __Grid Size__ - Allow the user to specify the grid size.  Currently, a global CONST is used to define it but some magic numbers exist in the code, although I tried to minimize this as I had this feature in mind when starting out.
 
-1. __[]__ Increase the snake velocity after "n" number of food units eaten.
-1. __[]__ Allow the user to specify easy, medium or hard for initial velocity vector and resultant gameplay.
-1. __[]__ Improve css for better layout of status label and change font fro something more modern, or 80s style, in appearance.
-1. __[]__ have graphic elements for the snake and the food.  E.g. head, body segment and tail segment(s) have different graphics that change when heading changes.
+1. __[]__ __Increase Velocity__ - Increase the snake velocity after "n" number of food units eaten.
+1. __[]__ __Specify USer Level__ - Allow the user to specify easy, medium or hard for initial velocity vector and resultant gameplay.
+1. __[]__ __CSS__ - Improve css for better layout of status label and change font fro something more modern, or 80s style, in appearance.
+1. __[]__ __Add Graphics__ - Have graphic elements for the snake and the food.  E.g. head, body segment and tail segment(s) have different graphics that change when heading changes.
 
 ## Contributions Guidelines
 1. Not accepting contributions at this time as this project is used for my learning.
