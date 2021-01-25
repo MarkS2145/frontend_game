@@ -1,77 +1,74 @@
-[![General Assembly Logo](https://camo.githubusercontent.com/1a91b05b8f4d44b5bbfb83abac2b0996d8e26c92/687474703a2f2f692e696d6775722e636f6d2f6b6538555354712e706e67)](https://generalassemb.ly/education/web-development-immersive)
 
-# Tic-Tac-Toe
 
-Make the game Tic-Tac-Toe using HTML, CSS, and JavaScript!
+# Snakes Alive!
 
-## Prerequisites
+This is my homage to the orginal snake game.
 
-- Semantic HTML
-- CSS styling and layout
-- CSS Grid
-- JavaScript programming
-- Working with the DOM
-- JavaScript events
+## Installation Instructions
 
-## Instructions
+1. Copy files locally to your machine
+1. Copy path to Index file and paste into Firefox
+1. Follow the onscreen instructions. Our snake is green and moved by the arrow keys.  Food is red and appears periodically.  Eating food causes your snake to grow.
+1. Have fun!
 
-1. Read through and fulfill the listed requirements.
-1. You will create a new repo on your personal Github account for this project.
-1. Submit this project with an issue on this repo.
+## Descriptions
+The snake game made famous in the 80s is reproduced here. 
 
-Please turn in your submission by the deadline on your cohort calendar.
+## Example
+![Snake screen capture](./assets/capture.jpeg)
+
+## List of Features / User Stories
+The game shall:
+1.  __[x]__ take keyboard input when the screen is in focus
+1. __[x]__ add a snake head to the grid upon pressing of any key stroke.
+1. __[x]__ default the location to the center of the grid.
+1. __[x]__ shall move the snake head by use of the arrow keys
+1. __[x]__ make food appear peridoically on the grid.
+1. __[x]__ when the snake travels over the food it shall eat the food and grow an additional body segment.
+1. __[x]__ ensure the snake body segments follow only the path prescribed by the snake head.
+1. __[x]__ inform the user when the game is over.
+1. __[x]__ kill the snake if it turns back on itself
+1. __[x]__ kill the snake if it attempts to run off the grid.
+1. __[x]__ kill the snake if it attempts to eat its body.
+1. __[x]__ inform the user of the status through text lable
+1. __[x]__ allow the user to play again.
+1. __[x]__ not allow the user to restart a game in-progress by clicking the play again button.
+
+## Technologies used:
+1. HTML
+1. Javascript (JS)
+1. CSS
+1.  And the most important technology of all... imagination, perserverance and optimism!
 
 ## Requirements
 
-__[x]__Your goal is to build out a working version of Tic-Tac-Toe. This is to get you
-ready to build out a more complex game for your project so in addition to
-practicing the technical skills you've learned in class, you'll practice scoping
-out a large project, breaking it into smaller pieces, and working towards those
-goals in sequence.
+__[x]__ Technical Requirements
+Your game must:
+__[x]__ Render in the browser
+Include separate HTML / CSS / JavaScript files
+Use JavaScript for DOM manipulation
+__[x]__ Be deployed online, using Github Project pages and/or to a custom domain.
+__[x]__ Use semantic markup for HTML and CSS (adhere to best practices)
+__[x]__ Show a good commit history with frequent commits
+__[x]__ Additionally, your project should stick with KISS (Keep It Stupid Simple) and DRY (Don't Repeat Yourself) principles.
 
-You're going to build out your Tic-Tac-Toe game in two phases! We'll define the
-goals for each phase, but you should break these down into even smaller steps.
+## Known Bugs
+1. __[]__ Food can drop on the snakes body.  Issue persists due to feature list priority as this doesn't impact general game play.
 
-### Phase 1: Player-scored Version
-1. __[x]__ Build out a 3x3 grid with clickable squares. 
-1. __[x]__ When a user clicks on a square, it should turn red or blue (alternating with each click). Once a square has been 
-1. __[x]__ clicked, a user should not be able to click it again and change it's color.
-1. __[x]__ Below your 3x3 grid, you should have a 'reset' button that will reset the game.
+## Opportunities for improvement
+1. __[]__ Keep score and save off, with user name the top three high scores to the server.
+1. __[]__ Add an initial velocity vector to the snake.
 
-**Bonus requirements:**
+1. __[]__ Refactor code to improve readiability, reduce variables and improve f() calls.
+1.__[]__ Allow the user to specify the grid size.  Currently, a global CONST is used to define it but some magic numbers exist in the code, although I tried to minimize this as I had this feature in mind when starting out.
 
-- __[x]__ Have a message somewhere in your UI to show who the current player is (i.e.
-  `red's turn` or `blue's turn`)
+1. __[]__ Increase the snake velocity after n number of food units eaten.
+1. __[]__ Allow the user to specify easy, medium or hard for initial velocoty vector and resultant gameplay.
+1. __[]__ Improve css for better layout of status label and chnge font.
+1. __[]__ have graphic elements for teh snake and the food.  E.g. head, body segment and tail segment(s) have different graphics that change when heading changes.
 
-**Additional Resources:**
-
-- [MDN Pointer Events](https://developer.mozilla.org/en-US/docs/Web/CSS/pointer-events)
-
-### Phase 2: Dumbly-scored Version
-
-> Students will often jump straight in to building a complex algorithm to
-> determine if a player has won. While the enthusiasm is great, it's often
-> better to start with a 'dumb' version and then work towards a 'smart' version.
-
-The goal of this phase is to make it so that players don't have to manually
-score the game. Instead, you're going to write some code that will check the
-board with every turn:
-
-- __[x]__ If a player has won, display a message with which player won the game (i.e.
-  red or blue)
-- __[x]__ If all the squares are filled in and no player has won yet, display a message
-  saying it's a tie
-- __[x]__ In both cases, the users should be able to reset the game
-
-In games where there are a limited number of winning combinations, a great
-first-step to auto-calculating the winner is to hold those winning combinations
-in some format (maybe an array) and check the current game against those winning
-combinations. If one of the winning combinations matches the gameboard, then you
-know a player has won!
-
-However, doing so requires modeling the current state of the gameboard in your
-code. So, in addition to updating your UI whenever a player makes a move, you'll
-also have to update some representation of the gameboard in your game code.
+## Contributions Guidelines
+1. Not accepting contributions at this time as this project is used for my learning.
 
 ## Plagiarism
 
