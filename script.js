@@ -116,7 +116,8 @@ function setUp () {
     
     //Reset variables back to defaults
     // head = null;
-    snakeArray[0] = null;
+    snakeArray = [];
+    // snakeArray[0] = null;
     previousHeading = null;
     foodCount = 0;
     eatenFoodCounter = 0;  // resets score
@@ -186,14 +187,15 @@ function keyDown(event) {
                     break;
                 }
 
-
                 //Update previousHeading for cannibalization check
                 previousHeading = HEADING_LEFT;
 
-
-
                 // Refactored updateSnakePosition code into a f()
-                updateSnakePosition( HEADING_LEFT );
+                returnValue = updateSnakePosition( HEADING_LEFT );
+                if ( returnValue ) {
+                    summary("Death by Canibalization body");
+                    break;
+                }
                 
                 //allCells[snakeArray[0]].classList.add('snake');
                 snakeArray.forEach( (element)=>allCells[element].classList.add('snake'))
@@ -222,7 +224,11 @@ function keyDown(event) {
 
                 previousHeading = HEADING_UP;
 
-                updateSnakePosition( HEADING_UP );
+                returnValue = updateSnakePosition( HEADING_UP );
+                if ( returnValue ) {
+                    summary("Death by Canibalization body");
+                    break;
+                }
                 
                 // foodEaten = checkForFood(allCells[head]);
                 foodEaten = checkForFood(allCells[ (snakeArray[0]) ]);
@@ -249,7 +255,11 @@ function keyDown(event) {
 
                 previousHeading = HEADING_RIGHT;
 
-                updateSnakePosition( HEADING_RIGHT );
+                returnValue = updateSnakePosition( HEADING_RIGHT );
+                if ( returnValue ) {
+                    summary("Death by Canibalization body");
+                    break;
+                }
 
                 foodEaten = checkForFood(allCells[ (snakeArray[0]) ] );
                 break;
@@ -259,7 +269,6 @@ function keyDown(event) {
 
                 // returnValue = outOfBoundsCheck(head, HEADING_DOWN);
                 returnValue = outOfBoundsCheck(  (snakeArray[0])  , HEADING_DOWN);
-
                 if ( returnValue ) {
                     // we are out of bounds, call summary()
                     summary("Death by Out of Bounds Down");
@@ -267,7 +276,6 @@ function keyDown(event) {
                 }
 
                 returnValue = eatSelfCheck(HEADING_DOWN);
-
                 if ( returnValue ) {
                     // we are out of bounds, call summary()
                     summary("Death by Canibalization Down");
@@ -276,16 +284,12 @@ function keyDown(event) {
 
                 previousHeading = HEADING_DOWN;
                 
-                updateSnakePosition( HEADING_DOWN );
-
-                // // allCells[head].classList.remove('snake');
-                // allCells[ (snakeArray[0]) ].classList.remove('snake');
+                returnValue = updateSnakePosition( HEADING_DOWN )
+                if ( returnValue ) {
+                    summary("Death by Canibalization body");
+                    break;
+                }
                 
-                // // head = head + HEADING_DOWN;
-                // (snakeArray[0])  =  (snakeArray[0])  + HEADING_DOWN;
-                // // allCells[head].classList.add('snake');
-                // allCells[ (snakeArray[0]) ].classList.add('snake');
-                // foodEaten = checkForFood(allCells[head]);
                 foodEaten = checkForFood(allCells[ (snakeArray[0]) ]);
                 break;
             default:
@@ -317,8 +321,17 @@ function updateSnakePosition( argumentHeading ) {
         // Here we need to take last snakeArray Element and set it to the previous array value
         snakeArray[i] = snakeArray[i-1]
     }
-    // Then finally update the head to the new location
-    snakeArray[0] = snakeArray[0] + argumentHeading ;
+    
+    console.log("SNAKE EATING OWN BODY?: " + snakeArray.some(element => element == parseInt(snakeArray[0] + argumentHeading) ) );
+    // Check if we have eaten our body
+    // if ( snakeArray.find(element => (snakeArray[0] + argumentHeading) )) {
+    //     return true;
+    // } else { 
+    if ( snakeArray.some(element => element == parseInt( snakeArray[0] + argumentHeading )) ) {
+        // We have eaten ourself
+        return true;
+    }
+    snakeArray[0] = snakeArray[0] + argumentHeading;// }
     
     //allCells[snakeArray[0]].classList.add('snake');
     snakeArray.forEach( (element)=>allCells[element].classList.add('snake'))
@@ -444,7 +457,7 @@ function addFood() {
     if (foodIndex < foodLocations.length ) {
         if (updateCounter == (FOOD_COUNT/TIMER_UPDATE) ){
             // Put food out
-            allCells[foodLocations[foodIndex]].classList.add('food');
+            allCells[ foodLocations[foodIndex] ].classList.add('food');
             foodOut = true;       
             foodIndex++;
             updateCounter = 0;
