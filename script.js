@@ -120,6 +120,7 @@ function setUp () {
     // snakeArray[0] = null;
     previousHeading = null;
     foodCount = 0;
+    foodOut = false; 
     eatenFoodCounter = 0;  // resets score
     foodIndex = 0; // reset counter till next food is put on grid
     gameInProgress = true;
@@ -383,6 +384,7 @@ function outOfBoundsCheck(currentHeadLocation, direction) {
 
 }
 
+// Checks to see if head eats head, e.g. you can't turn back on yourself
 function eatSelfCheck(newHeading) {
     //we have these cases to check
 
@@ -401,10 +403,6 @@ function eatSelfCheck(newHeading) {
     return false;
 
 }
-
-
-
-
 
 //summary() provides a summary of gameplay outcome and resets variables
 function summary(msg) {
@@ -454,18 +452,23 @@ function addFood() {
     // and deal with error checking later
     console.log("Food called, index: " + foodIndex)
 
-    if (foodIndex < foodLocations.length ) {
-        if (updateCounter == (FOOD_COUNT/TIMER_UPDATE) ){
-            // Put food out
-            allCells[ foodLocations[foodIndex] ].classList.add('food');
-            foodOut = true;       
-            foodIndex++;
-            updateCounter = 0;
+    if ( !foodOut ) {
+        // Only put out one piece of food at a time
+        if (foodIndex < foodLocations.length ) {
+            if (updateCounter == (FOOD_COUNT/TIMER_UPDATE) ){
+                // Put food out
+                allCells[ foodLocations[foodIndex] ].classList.add('food');
+                foodOut = true;       
+                foodIndex++;
+                updateCounter = 0;
+            }
+        } else {
+            // reset index into food location array
+            foodIndex = 0;
         }
-    } else {
-        // reset index into food location array
-        foodIndex = 0;
+
     }
+    
 }
 
 let eatenFoodCounter = 0;
@@ -480,6 +483,8 @@ function checkForFood(headLocation){
     if ( headLocation.classList[1] == 'food') {
         headLocation.classList.remove('food')
         eatenFoodCounter++;
+        foodOut = false; // We have just eaten it
+        updateCounter = 0;  // reset index counter so we get next food item put up
         // increase snake length
         snakeArray.splice(1, 0, parseInt(headLocation.id))
         
