@@ -187,11 +187,26 @@ function keyDown(event) {
                 }
 
                 // allCells[head].classList.remove('snake');
-                allCells[ (snakeArray[0]) ].classList.remove('snake');
+
+                // if only head then
+                if ( snakeArray.length == 1) { allCells[ (snakeArray[0]) ].classList.remove('snake'); }
+                else { snakeArray.forEach( (element)=>allCells[element].classList.remove('snake')) } // Snake is longer so remove last body section
+                
+                //Update previousHeading for cannibalization check
                 previousHeading = HEADING_LEFT;
                 // head = head + HEADING_LEFT;
+                
+                //Update snake locations
+                for ( let i = (snakeArray.length - 1) ; i > 0 ; i-- ) {
+                    // Here we need to take last snakeArray Element and set it to the previous array value
+                    snakeArray[i] = snakeArray[i-1]
+                }
+                // Then finally update the head to the new location
                 snakeArray[0] = snakeArray[0] + HEADING_LEFT;
-                allCells[snakeArray[0]].classList.add('snake');
+                
+                //allCells[snakeArray[0]].classList.add('snake');
+                snakeArray.forEach( (element)=>allCells[element].classList.add('snake'))
+                
                 foodEaten = checkForFood(allCells[ (snakeArray[0]) ]);
                 break;
             case UP_ARROW : 
@@ -406,7 +421,7 @@ function UserException(message) {
 // We don't put food out until previous food is eaten
 let foodOut = false;
 let foodIndex = 0;
-let foodLocation = [ 1, 19, 13, 17, 6, 21, 11, 5, 23, 0 ]
+let foodLocations = [ 1, 19, 13, 17, 6, 21, 11, 5, 23, 0 ]
 
 // Add food for the snake
 function addFood() {
@@ -415,10 +430,10 @@ function addFood() {
     // and deal with error checking later
     console.log("Food called, index: " + foodIndex)
 
-    if (foodIndex < foodLocation.length ) {
+    if (foodIndex < foodLocations.length ) {
         if (updateCounter == (FOOD_COUNT/TIMER_UPDATE) ){
             // Put food out
-            allCells[foodLocation[foodIndex]].classList.add('food');
+            allCells[foodLocations[foodIndex]].classList.add('food');
             foodOut = true;       
             foodIndex++;
             updateCounter = 0;
