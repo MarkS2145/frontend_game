@@ -186,23 +186,14 @@ function keyDown(event) {
                     break;
                 }
 
-                // allCells[head].classList.remove('snake');
 
-                // if only head then
-                if ( snakeArray.length == 1) { allCells[ (snakeArray[0]) ].classList.remove('snake'); }
-                else { snakeArray.forEach( (element)=>allCells[element].classList.remove('snake')) } // Snake is longer so remove last body section
-                
                 //Update previousHeading for cannibalization check
                 previousHeading = HEADING_LEFT;
-                // head = head + HEADING_LEFT;
-                
-                //Update snake locations
-                for ( let i = (snakeArray.length - 1) ; i > 0 ; i-- ) {
-                    // Here we need to take last snakeArray Element and set it to the previous array value
-                    snakeArray[i] = snakeArray[i-1]
-                }
-                // Then finally update the head to the new location
-                snakeArray[0] = snakeArray[0] + HEADING_LEFT;
+
+
+
+                // Refactored updateSnakePosition code into a f()
+                updateSnakePosition( HEADING_LEFT );
                 
                 //allCells[snakeArray[0]].classList.add('snake');
                 snakeArray.forEach( (element)=>allCells[element].classList.add('snake'))
@@ -228,14 +219,11 @@ function keyDown(event) {
                     summary("Death by Canibalization Up");
                     break;
                 }
-                
-                // allCells[head].classList.remove('snake');
-                allCells[ (snakeArray[0]) ].classList.remove('snake');
+
                 previousHeading = HEADING_UP;
-                // head = head + HEADING_UP;
-                snakeArray[0] = snakeArray[0] + HEADING_UP;
-                // allCells[head].classList.add('snake');
-                allCells[ (snakeArray[0]) ].classList.add('snake');
+
+                updateSnakePosition( HEADING_UP );
+                
                 // foodEaten = checkForFood(allCells[head]);
                 foodEaten = checkForFood(allCells[ (snakeArray[0]) ]);
                 break;
@@ -259,13 +247,10 @@ function keyDown(event) {
                     break;
                 }
 
-                // allCells[head].classList.remove('snake');
-                allCells[(snakeArray[0])].classList.remove('snake');
                 previousHeading = HEADING_RIGHT;
-                // head = head + HEADING_RIGHT;
-                (snakeArray[0]) = (snakeArray[0]) + HEADING_RIGHT;
-                allCells[(snakeArray[0])].classList.add('snake');
-                // foodEaten = checkForFood(allCells[head]);
+
+                updateSnakePosition( HEADING_RIGHT );
+
                 foodEaten = checkForFood(allCells[ (snakeArray[0]) ] );
                 break;
     
@@ -288,14 +273,18 @@ function keyDown(event) {
                     summary("Death by Canibalization Down");
                     break;
                 }
-                
-                // allCells[head].classList.remove('snake');
-                allCells[ (snakeArray[0]) ].classList.remove('snake');
+
                 previousHeading = HEADING_DOWN;
-                // head = head + HEADING_DOWN;
-                (snakeArray[0])  =  (snakeArray[0])  + HEADING_DOWN;
-                // allCells[head].classList.add('snake');
-                allCells[ (snakeArray[0]) ].classList.add('snake');
+                
+                updateSnakePosition( HEADING_DOWN );
+
+                // // allCells[head].classList.remove('snake');
+                // allCells[ (snakeArray[0]) ].classList.remove('snake');
+                
+                // // head = head + HEADING_DOWN;
+                // (snakeArray[0])  =  (snakeArray[0])  + HEADING_DOWN;
+                // // allCells[head].classList.add('snake');
+                // allCells[ (snakeArray[0]) ].classList.add('snake');
                 // foodEaten = checkForFood(allCells[head]);
                 foodEaten = checkForFood(allCells[ (snakeArray[0]) ]);
                 break;
@@ -313,6 +302,28 @@ function keyDown(event) {
     return;
 
 }
+
+function updateSnakePosition( argumentHeading ) {
+    // argument passed in is the keyboard arrow direction
+    // This way we can generalize the function, I believe.
+
+    // if only head then
+    if ( snakeArray.length == 1) { allCells[ (snakeArray[0]) ].classList.remove('snake'); }
+    else { snakeArray.forEach( (element)=>allCells[element].classList.remove('snake')) } // Snake is longer so remove last body section
+    
+    
+    //Update snake locations
+    for ( let i = (snakeArray.length - 1) ; i > 0 ; i-- ) {
+        // Here we need to take last snakeArray Element and set it to the previous array value
+        snakeArray[i] = snakeArray[i-1]
+    }
+    // Then finally update the head to the new location
+    snakeArray[0] = snakeArray[0] + argumentHeading ;
+    
+    //allCells[snakeArray[0]].classList.add('snake');
+    snakeArray.forEach( (element)=>allCells[element].classList.add('snake'))
+
+} // End of updateSnakePosition()
 
 
 function outOfBoundsCheck(currentHeadLocation, direction) {
