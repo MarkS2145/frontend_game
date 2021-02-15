@@ -12,7 +12,7 @@ debug ? console.log('hello world') : null;
 const GRID_SIZE = 5; 
 /*
     HEADING_direction consts are used for boundary checking to ensure snake stays within bounds.
-    as teh GRID_SIZE determines number of rows/columns heading left or right ina  row is one step.
+    as the GRID_SIZE determines number of rows/columns heading left or right ina  row is one step.
     Theirfore, 
         HEADING_RIGHT = +1, HEADING_LEFT = -1;
         heading Up or Down is jumping rows so your offset is the grid size.
